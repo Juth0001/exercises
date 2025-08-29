@@ -1,0 +1,25 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: rgb(148, 121, 94);
+}
+
+input {
+    border-radius: 0%;
+    align-self: center;
+    background-color: rgb(74, 37, 9);
+    color: white;
+}
+
+#guess,
+#correct,
+#toohigh,
+#toolow {
+    border-radius: 15%;
+    background-color: rgb(74, 37, 9);
+    color: white;
+    box-shadow: none;
+}
