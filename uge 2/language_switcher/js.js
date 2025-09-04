@@ -1,4 +1,15 @@
-"use strict";
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".dropdown-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.parentElement.classList.toggle("open");
+    });
+  });
+});
+
+
+
 const texts = {
   de: {
     texts: [
@@ -13,4 +24,25 @@ const texts = {
     ],
   },
 };
-const locale = "da";
+//const locale = "da";
+
+const btn_languageDa = document.querySelector("#languageDa");
+const btn_languageDe = document.querySelector("#languageDe");
+
+btn_languageDa.addEventListener("click", () => showThisLanguage("da"));
+btn_languageDe.addEventListener("click", () => showThisLanguage("de"));
+
+showThisLanguage(da);
+showThisLanguage(de);
+
+function showThisLanguage(lang) {
+  texts[lang].texts.forEach((entry) => {
+    const el = document.querySelector(entry.location);
+    if (el) {
+      el.textContent = entry.text;
+
+    }
+  });
+
+}
+
