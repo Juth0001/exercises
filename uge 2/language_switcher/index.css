@@ -132,6 +132,8 @@ body {
     transform: rotate(180deg);
 }
 
+
+
 /* Indhold (skjult som standard) */
 .dropdown-content {
     max-height: 0;
