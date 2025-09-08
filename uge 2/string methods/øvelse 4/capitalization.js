@@ -19,10 +19,17 @@ let result = name.slice(0, 0) + name.charAt(0).toUpperCase() + name.slice(1);
 console.log(result);
 */
 
-
+/*
 const theName = "hAnSE";
 const threeCapitalised1 = theName.substring(0, 2).toLowerCase();
 const threeCapitalised2 = theName.substring(2, 3).toUpperCase();
 const threeCapitalised3 = theName.substring(3, 4).toUpperCase();
 
 console.log(threeCapitalised);
+*/
+
+
+console.log(threeCapi("vAldeMAR"));
+function threeCapi(theName) {
+    return theName.substring(0, 1).toUpperCase() + theName.substring(1).toLowerCase();
+}
