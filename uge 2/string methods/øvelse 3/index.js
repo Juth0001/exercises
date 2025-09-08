@@ -1,7 +1,15 @@
 const name = "Albus Percival Wulfic Brian Dumbledor";
 const name1 = "AlBus";
-const firstName = name.substring(0, 5);
-const lastNames = name.substring(5);
+
+//const firstName = name.substring(0, 5);
+const firstName = name.substring(0, name.indexOf(" "));
+
+//const lastNames = name.substring(5);
+const lastNames = name.substring(0, name.indexOf(" ") + 1, name.lastIndexOf(" ")); //mellemnavn
+//efternavn
+//const firstName = name.substring(name.lastIndexOf(" "));
+
+
 const len = name.length;
 console.log(`${name} is ${len} caracters long`);
 const letter0 = name[0];
