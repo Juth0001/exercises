@@ -3,17 +3,16 @@ ul {
     display: flex;
     align-items: flex-end;
     gap: 1ch;
-    block-size: 200px;
+    block-size: 100px;
     padding: 0;
     margin: 0;
 }
 
 li {
-
-    inline-size: 6ch;
-    height: calc(var(--height) * 2px);
+    /* --height: 40; */
+    inline-size: 3ch;
+    height: calc(var(--height) * 1px);
     background: color-mix(in hsl, red, green calc(var(--height) * 1%));
-
 }
 
 * {

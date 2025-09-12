@@ -18,7 +18,7 @@ function generateBars() {
 
 function render() {
     document.querySelectorAll("li").forEach((elm, i) => {
-        elm.style.setProperty("--heigt", barArr[i]);
+        elm.style.setProperty("--height", barArr[i]);
     }
     ); {
 
