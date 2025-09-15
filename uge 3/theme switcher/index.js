@@ -11,3 +11,8 @@ function klik(evt) {
     };
 
 }
+
+
+
+
+//const storedTheme = localStorage.getItem("storedTheme");
