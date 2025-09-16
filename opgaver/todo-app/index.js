@@ -1,183 +1,135 @@
-// Opretter et tomt array til at gemme alle opgaver
-const toDoArr = []
+// --- 1. Array til opgaver ---
+// Et tomt array til at gemme alle to-do opgaver
+const toDoArr = [];
 
-// Finder input-feltet hvor brugeren skriver opgaven
+// --- 2. Find elementer i DOM ---
+// Input-felt hvor brugeren skriver opgaven
 const input = document.querySelector("#to_do_name_input");
-
-// Finder containeren (<ul>), hvor opgaverne skal vises
+// Container (<ul>) hvor opgaverne skal vises
 const todoContainer = document.querySelector("#todoContainer");
-
-// Finder submit-knappen
+// Submit-knappen til at tilføje en opgave
 const submit = document.querySelector("#submit");
 
-// Når knappen klikkes, kør funktionen subMitTodo
+// --- 3. Load fra localStorage ---
+// Hent gemte opgaver fra localStorage
+const savedTasks = localStorage.getItem("toDoArr");
+// Hvis der er gemte opgaver, tilføj dem til arrayet
+if (savedTasks) {
+    toDoArr.push(...JSON.parse(savedTasks));
+    writeTodos(); // Vis de gemte opgaver på siden
+}
+
+// --- 4. Event listener for submit ---
+// Når brugeren klikker på submit, kald funktionen subMitTodo
 submit.addEventListener("click", subMitTodo);
 
-// Funktion der tilføjer en ny opgave
-function subMitTodo(evt) {
-    // Stopper standardadfærden for knappen (form reload)
-    evt.preventDefault();
+// --- 5. Gem til localStorage ---
+// Funktion til at gemme hele toDoArr i browserens localStorage
+function saveToLocalStorage() {
+    localStorage.setItem("toDoArr", JSON.stringify(toDoArr));
+}
 
-    // Opretter et objekt med info om opgaven
+// --- 6. Tilføj ny opgave ---
+// Funktion der kaldes når brugeren tilføjer en opgave
+function subMitTodo(evt) {
+    evt.preventDefault(); // Stopper formens standard submit (reload)
+    if (!input.value.trim()) return; // Ignorer tomme input
+
+    // Opret et objekt for opgaven
     const todoObj = {
-        name: input.value,             // Teksten brugeren skrev
-        id: self.crypto.randomUUID(),  // Unikt id til opgaven
-        done: false,                   // Status: opgaven er ikke færdig
-        important: false
+        name: input.value,       // Teksten fra input-feltet
+        id: crypto.randomUUID(), // Unikt id til opgaven
+        done: false,             // Status for færdig
+        important: false         // Status for vigtig
     };
 
-    // Tilføjer den nye opgave forrest i arrayet
-    toDoArr.unshift(todoObj);
-
-    // Tjek i konsollen, at opgaven blev tilføjet korrekt
-    console.log("toDoArr 1", toDoArr);
-
-    // Opdaterer visningen af opgaverne i browseren
-    writeTodos();
-
-    // Rydder input-feltet, så brugeren kan skrive en ny opgave
-    input.value = "";
+    toDoArr.unshift(todoObj); // Tilføj opgaven forrest i arrayet
+    input.value = "";          // Ryd input-feltet
+    saveToLocalStorage();      // Gem arrayet i localStorage
+    writeTodos();              // Opdater listen i DOM
 }
 
+// --- 7. Tegn listen ---
 // Funktion der viser alle opgaver i browseren
 function writeTodos() {
-    // Tømmer containeren, så vi kan tegne listen på ny
-    todoContainer.innerHTML = "";
+    todoContainer.innerHTML = ""; // Tøm containeren først
 
-    // Gennemgår alle opgaver i arrayet
-    toDoArr.forEach((todoObj) => {
-        // Sætter checkbox til "checked", hvis opgaven er færdig
-        let isChecked = todoObj.done ? "checked" : "";
-        let isImportant = todoObj.important ? "checked" : "";
-
-        // Tilføjer HTML for en opgave til containeren
-        todoContainer.innerHTML +=
-            `<li data-id=${todoObj.id}>
-                <h2>${todoObj.name}</h2>
-                <input type="checkbox" name="todoCheck" ${isChecked} />
-                <input type="checkbox" id ="important" name="important-box" ${todoObj.important ? "checked" : ""}/>
-                <label for="important" class="star"></label>
-            </li>`;
+    // Sortér array: vigtig først, færdig nederst
+    const sortedTasks = toDoArr.slice().sort((a, b) => {
+        if (a.important && !b.important) return -1; // a vigtig, b ikke -> a først
+        if (!a.important && b.important) return 1;  // b vigtig -> b først
+        if (!a.done && b.done) return -1;           // a ikke færdig, b færdig -> a først
+        if (a.done && !b.done) return 1;            // a færdig -> b først
+        return 0;                                   // ellers ingen ændring
     });
 
+    // Loop gennem hver opgave
+    sortedTasks.forEach(task => {
+        const li = document.createElement("li"); // Opret <li> til opgaven
+        li.dataset.id = task.id;                 // Gem opgavens id som data-attribut
 
-    // Lægger event listener på hver checkbox
-    todoContainer.querySelectorAll("li").forEach(li => {
-        const checkBox = li.querySelector("input[name='todoCheck']");
+        const h2 = document.createElement("h2"); // Opret <h2> til opgavens tekst
+        h2.textContent = task.name;             // Sæt teksten til opgavens navn
 
-        checkBox.addEventListener("click", () => {
-            // Finder opgaven i arrayet, som svarer til denne li
-            const corrospondingDataObj = toDoArr.find(toDo => toDo.id == li.dataset.id);
+        // --- DONE checkbox og label ---
+        const doneCheckbox = document.createElement("input"); // Opret checkbox
+        doneCheckbox.type = "checkbox";                       // Type checkbox
+        doneCheckbox.checked = task.done;                    // Marker som checked hvis done
+        doneCheckbox.name = "done-box";                      // Navn til CSS
+        doneCheckbox.id = `done-${task.id}`;                 // Unikt id
+        doneCheckbox.style.display = "none";                // Skjul den rigtige checkbox
 
-            // Skift status: færdig -> ikke færdig og omvendt
-            corrospondingDataObj.done = !corrospondingDataObj.done;
+        const doneLabel = document.createElement("label");   // Label til ikonet
+        doneLabel.htmlFor = `done-${task.id}`;              // Forbind label til checkbox
+        doneLabel.classList.add("doneLabel");               // CSS-klasse til ikonet
 
-            // Tjek i konsollen
-            console.log("corrospondingDataObj", corrospondingDataObj);
-            console.log("toDoArr ", toDoArr);
-
-            // Opdater visningen, så ændringen kan ses
-            writeTodos();
-
+        // Når checkbox ændres
+        doneCheckbox.addEventListener("change", () => {
+            task.done = doneCheckbox.checked; // Opdater status
+            saveToLocalStorage();             // Gem i localStorage
+            writeTodos();                     // Opdater DOM
         });
 
-        const importantBox = li.querySelector("input[name='important-box']");
-        if (importantBox) { // tjek at den findes
-            importantBox.addEventListener("click", () => {
-                const correspondingDataObj = toDoArr.find(toDo => toDo.id == li.dataset.id);
-                correspondingDataObj.important = !correspondingDataObj.important;
+        // --- IMPORTANT checkbox og label ---
+        const importantCheckbox = document.createElement("input");
+        importantCheckbox.type = "checkbox";
+        importantCheckbox.checked = task.important;
+        importantCheckbox.name = "important-box";
+        importantCheckbox.id = `important-${task.id}`;
+        importantCheckbox.style.display = "none";
 
-                writeTodos();
-            });
-        }
+        const importantLabel = document.createElement("label");
+        importantLabel.htmlFor = `important-${task.id}`;
+        importantLabel.classList.add("star");
+
+        importantCheckbox.addEventListener("change", () => {
+            task.important = importantCheckbox.checked;
+            saveToLocalStorage();
+            writeTodos();
+        });
+
+        // --- DELETE label (icon) ---
+        const deleteLabel = document.createElement("label"); // Label bruges som ikon
+        deleteLabel.classList.add("deleteLabel");           // CSS-klasse til delete
+        deleteLabel.htmlFor = `delete-${task.id}`;          // kan bruge id
+        deleteLabel.addEventListener("click", () => {
+            const index = toDoArr.findIndex(t => t.id === task.id); // Find opgaven i array
+            if (index > -1) {
+                toDoArr.splice(index, 1);  // Slet opgaven
+                saveToLocalStorage();      // Gem ændring i localStorage
+                writeTodos();              // Opdater DOM
+            }
+        });
+
+        // --- Append alle elementer til li ---
+        li.appendChild(h2);
+        li.appendChild(doneCheckbox);
+        li.appendChild(doneLabel);
+        li.appendChild(importantCheckbox);
+        li.appendChild(importantLabel);
+        li.appendChild(deleteLabel);
+
+        // Tilføj li til containeren
+        todoContainer.appendChild(li);
     });
 }
-
-
-
-
-
-//liste over tilføjelser;
-// slet knap
-//slet collumn, hvor man kan se alle slettede
-//done collumn, hvor man kan se alle done
-//knap til "order" (alphabetisk-rækkefølge, random-rækkefølge eller vigtig-rækkefølge)
-//sæt det der huske function ind
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-const form = document.querySelector("#todo-form");
-const input = document.querySelector("#todo-input");
-const list = document.querySelector("#todo-list");
-
-// 1. Når vi submitter formen
-form.addEventListener("submit", (e) => {
-  e.preventDefault(); // undgå at siden genindlæser
-
-  const text = input.value.trim();
-  if (text === "") return;
-
-  addTask(text);
-  input.value = ""; // ryd inputfeltet
-});
-
-// 2. Funktion til at tilføje en opgave
-function addTask(text) {
-  const li = document.createElement("li");
-  li.textContent = text;
-
-  // Klik = marker som færdig
-  li.addEventListener("click", () => {
-    li.classList.toggle("done");
-  });
-
-  // Slet-knap
-  const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "❌";
-  deleteBtn.addEventListener("click", () => {
-    li.remove();
-  });
-
-  li.appendChild(deleteBtn);
-  list.appendChild(li);
-}
-*/
