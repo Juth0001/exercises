@@ -1,0 +1,164 @@
+/*body {
+    height: 100vh;
+    width: 100vh;
+}
+
+header {
+    background-color: gray;
+    height: 100vh;
+    width: 35%;
+}*/
+
+ul {
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+.todoContainer {
+    grid-column: 1/2;
+}
+
+.importantContainer {
+    grid-column: 2/3;
+}*/
+
+/*input[name="important-box"] {
+    accent-color: gold;}
+    /* gør checkboxen gylden */
+input[name="important-box"] {
+    display: none;
+    /* skjul den rigtige checkbox */
+}
+
+label.star {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: url('stjerne-ikon.png') no-repeat center / contain;
+    cursor: pointer;
+    filter: grayscale(100%);
+}
+
+input[name="important-box"]:checked+label.star {
+    filter: none;
+    /* fjern grayscale */
+    /* evt. farv stjernen med gold overlay hvis billede */
+    background-color: gold;
+    /* kun hvis stjerneikonet understøtter farve */
+}
+
+
+/* Generel opsætning */
+body {
+    font-family: system-ui, sans-serif;
+    background: #f0f0f0;
+    /* lys grå baggrund */
+    color: #222;
+    /* næsten sort tekst */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+
+/* Overskrift */
+h1 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #111;
+    /* mørkere overskrift */
+}
+
+/* Form (input + knap) */
+form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+input {
+    padding: 0.6rem 1rem;
+    border: 2px solid #ccc;
+    /* lys grå kant */
+    border-radius: 6px;
+    font-size: 1rem;
+    flex: 1;
+    outline: none;
+    background: #fff;
+    transition: border 0.2s ease;
+}
+
+input:focus {
+    border-color: #666;
+    /* mørkere grå ved fokus */
+}
+
+button {
+    padding: 0.6rem 1rem;
+    background: #333;
+    /* mørkegrå/sort knap */
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: #000;
+    /* helt sort på hover */
+}
+
+/* To-do liste */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+li {
+    background: #fff;
+    /* hvide kort */
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    /* let skygge */
+    transition: transform 0.1s ease;
+}
+
+li:hover {
+    transform: translateY(-2px);
+}
+
+/* Når en opgave er færdig */
+.done {
+    text-decoration: line-through;
+    color: #888;
+    /* medium grå for færdige opgaver */
+}
+
+/* Slet-knappen */
+li button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #999;
+    /* lys grå ikon */
+    transition: color 0.2s ease;
+}
+
+li button:hover {
+    color: #000;
+    /* sort når man hover */
+}
