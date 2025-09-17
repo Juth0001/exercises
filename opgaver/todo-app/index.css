@@ -1,158 +1,103 @@
-/* --- Layout af hele siden --- */
 body {
     font-family: system-ui, sans-serif;
-    /* Sæt skrifttype */
     background: #f0f0f0;
-    /* Lys grå baggrund */
     color: #222;
-    /* Mørk tekstfarve */
     display: flex;
-    /* Brug flexbox til layout */
     flex-direction: column;
-    /* Placer elementer lodret */
     align-items: center;
-    /* Centrer elementer horisontalt */
     padding: 2rem;
-    /* Indvendig margin rundt om indhold */
     min-height: 100vh;
-    /* Minimum højde = viewport højde */
 }
 
 /* --- Liste over opgaver --- */
 ul {
     display: flex;
-    /* Flexbox til opgaveliste */
     flex-direction: column;
-    /* Opbygning lodret */
     list-style: none;
-    /* Fjern standard punkttegn */
     padding: 0;
-    /* Fjern standard padding */
     margin: 0;
-    /* Fjern margin */
     width: 100%;
-    /* Brug hele bredden */
     max-width: 400px;
-    /* Maks bredde for læsbarhed */
 }
 
 /* --- Enkel opgave i listen --- */
 li {
     background: #fff;
-    /* Hvid baggrund for opgaven */
     margin-bottom: 0.5rem;
-    /* Lidt mellemrum mellem opgaver */
     padding: 0.75rem 1rem;
-    /* Indvendig margin i li */
     border-radius: 6px;
-    /* Rundede hjørner */
     display: flex;
-    /* Flexbox for li indhold */
     justify-content: space-between;
-    /* Placer elementer med plads imellem */
     align-items: center;
-    /* Vertikal centrering af elementer */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-    /* Let skygge under opgavekort */
     transition: transform 0.1s ease;
-    /* Glat animation ved hover */
 }
 
-/* Hover-effekt på opgaver */
+/* Hover-effekt  */
 li:hover {
     transform: translateY(-2px);
-    /* Lidt opad bevægelse ved hover */
+
 }
 
-/* Tekst inde i opgaven */
 h2 {
     margin: 0;
-    /* Fjern margin */
     flex: 1;
-    /* Fyld tilgængelig plads */
 }
 
 /* --- Input felt og knap --- */
 input[type="text"] {
     padding: 0.6rem 1rem;
-    /* Indvendig margin */
     border: 2px solid #ccc;
-    /* Lys grå kant */
     border-radius: 6px;
-    /* Rundede hjørner */
     font-size: 1rem;
-    /* Normal tekststørrelse */
     flex: 1;
-    /* Fylder fleksibel plads */
     outline: none;
-    /* Fjern default focus outline */
     background: #fff;
-    /* Hvid baggrund */
     transition: border 0.2s ease;
-    /* Glat overgang ved fokus */
 }
 
 /* Fokus på input felt */
 input[type="text"]:focus {
     border-color: #666;
-    /* Mørkere kant når valgt */
 }
 
-/* Knap */
+
 button {
     padding: 0.6rem 1rem;
-    /* Indvendig margin */
     background: #333;
-    /* Mørkegrå baggrund */
     border: none;
-    /* Ingen kant */
     border-radius: 6px;
-    /* Rundede hjørner */
     color: white;
-    /* Hvid tekst */
     font-size: 1rem;
-    /* Normal tekststørrelse */
     cursor: pointer;
-    /* Pointer cursor ved hover */
     transition: background 0.2s ease;
-    /* Glat overgang ved hover */
 }
 
-/* Hover effekt på knap */
+
 button:hover {
     background: #000;
-    /* Sort baggrund */
 }
 
 /* --- Done icon --- */
 input[name="done-box"] {
     display: none;
-    /* Skjul den faktiske checkbox */
 }
 
 label.doneLabel {
     display: inline-block;
-    /* Blok med inline-fleksibilitet */
     width: 30px;
-    /* Bredde på ikon */
     height: 30px;
-    /* Højde på ikon */
     background: url('CheckCircle.png') no-repeat center / contain;
     /* Sæt billede */
     cursor: pointer;
-    /* Cursor ved hover */
     filter: grayscale(100%);
-    /* Gråskala som default */
 }
 
 /* Når opgaven er markeret som done */
 input[name="done-box"]:checked+label.doneLabel {
     filter: none;
-    /* Fjern gråskala */
     background-color: gold;
-    /* Baggrund guld (kan også farve billedet) */
     border-radius: 100%;
-    /* Rund ikon */
 }
 
 /* --- Important icon --- */
@@ -163,49 +108,32 @@ input[name="important-box"] {
 
 label.star {
     display: inline-block;
-    /* Blok med inline fleksibilitet */
     width: 30px;
-    /* Bredde */
     height: 30px;
-    /* Højde */
     background: url('Clock.png') no-repeat center / contain;
-    /* Billede */
     cursor: pointer;
-    /* Pointer cursor */
     filter: grayscale(100%);
-    /* Default gråskala */
 }
 
 /* Når opgaven er markeret som vigtig */
 input[name="important-box"]:checked+label.star {
     filter: none;
-    /* Fjern gråskala */
     background-color: gold;
-    /* Guld baggrund */
     border-radius: 100%;
-    /* Rund ikon */
 }
 
 /* --- Delete icon --- */
 label.deleteLabel {
     display: inline-block;
-    /* Blok med inline fleksibilitet */
     width: 30px;
-    /* Bredde */
     height: 30px;
-    /* Højde */
     background: url('Trash.png') no-repeat center / contain;
-    /* Billede */
     cursor: pointer;
-    /* Pointer cursor */
     margin-left: 0.5rem;
-    /* Afstand til de andre ikoner */
     filter: grayscale(0%);
-    /* Normal farve */
 }
 
 /* Hover-effekt på delete ikon */
 label.deleteLabel:hover {
     filter: brightness(0.8);
-    /* Mørkere ved hover */
 }
